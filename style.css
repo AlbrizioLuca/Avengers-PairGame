@@ -1,0 +1,16 @@
+
+#game-board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vh;
+}
+
+.card {
+    display: flex;
+    width: 250px;
+    height: 350px;
+    margin: 10px;
+    cursor: pointer;
+}
+
