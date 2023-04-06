@@ -10,15 +10,22 @@
     </head>
     <body>
         <header>
+            <div id="time-left" class="timer"></div>
+            <div id="num-moves" class="counter"></div>
             <audio controls autoplay>
-                <source src="img/avengers.mp3" type="audio/mp3">
+                <source src="src/Music_Avengers.mp3" type="audio/mp3">
                 Your browser does not support the audio element.
             </audio>
-            <div id="num-moves" class="counter"></div>
-            <div id="time-left" class="timer"></div>
         </header>
         <main id="game-board">
         </main>
-        <footer></footer>
+        <video id="snapThanos">
+            <source src="src/SnapThanos.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <img src="src/GameOver.webp" id="gameOver"> 
+        <footer>
+            <button id="tryAgain">TRY AGAIN</button>
+        </footer>        
     <body>
 </html>

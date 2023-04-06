@@ -53,7 +53,6 @@ function shuffle(array) {
   return array;
 }
 
-
 function createCards() {
   // Mélanger les images des cartes
   cardImages = shuffle(cardImages.concat(cardImages));
@@ -75,17 +74,18 @@ function createCards() {
   }
 }
 
-// !Créer une variable pour stocker le nombre de coups
+// Créer une variable pour stocker le nombre de coups
 let numMoves = 0;
 
-// !Fonction pour incrémenter le nombre de coups et mettre à jour l'affichage
+// Fonction pour incrémenter le nombre de coups et mettre à jour l'affichage
 function incrementMoves() {
   numMoves++;
   document.getElementById("num-moves").textContent = "Nombres de coups : " + numMoves;
 }
 
-// !Ajouter un timer de 5 minutes
-const GAME_TIME = 5 * 60; // Temps de jeu en secondes
+// Ajouter un timer de 5 minutes
+// const GAME_TIME = 5* 60; // Temps de jeu en secondes
+const GAME_TIME = 5; // !Temps de jeu en secondes
 let timeLeft = GAME_TIME; // Temps restant en secondes
 
 // Fonction pour mettre à jour l'affichage du timer
@@ -103,17 +103,41 @@ let timerInterval = setInterval(() => {
   // Si le temps est écoulé, afficher GAME OVER
   if (timeLeft === 0) {
     clearInterval(timerInterval);
-    alert("GAME OVER, vous avez perdu!");
+    // alert("GAME OVER, vous avez perdu!");
+    gameOver();
   }
 
   // Vérifier si toutes les paires ont été trouvées
   if (matchedCards.length === cardImages.length) {
-    // !Arrêter le timer
+    // Arrêter le timer
     clearInterval(timerInterval); 
     // Afficher message de victoire
     alert("Bravo, vous avez gagné!");
   }
 }, 1000);
+
+// Fonction pour enlever toutes les cartes et afficher la vidéo GAME OVER
+function gameOver(){
+  // Récupération des éléments HTML par leur ID 
+  let video = document.getElementById("snapThanos");
+  let gameboard = document.getElementById("game-board");
+  let gameOver = document.getElementById("gameOver");
+  let tryAgain = document.getElementById("tryAgain");
+  // Changement du display des éléments afin de cacher/afficher
+  gameboard.style.display="none";
+  video.style.display="block";
+  // Si la vidéo est chargée alors lancer la lecture
+  if (video.readyState === 4){
+    video.play()
+  }
+  // Instancier un timeout le temps de la vidéo pour la faire disparaitre a nouveau
+  setTimeout(()=>{
+    video.style.display="none";
+    // afficher le message GAME OVER et la possibilité de relancer une partie 
+    gameOver.style.display="block";
+    tryAgain.style.display="block";
+  },10000)
+}
 
 // Fonction pour retourner une carte
 function flipCard() {
@@ -123,7 +147,7 @@ function flipCard() {
   }
   
   // Ajouter la carte au tableau des cartes retournées
-  incrementMoves(); // !Appel de la fonction pour incrementer le compteur de coup
+  incrementMoves(); // Appel de la fonction pour incrementer le compteur de coup
   returnedCard.push(this);
   this.classList.add("flipped");
   this.style.backgroundImage = `url(${cardImages[this.dataset.cardIndex]})`;
