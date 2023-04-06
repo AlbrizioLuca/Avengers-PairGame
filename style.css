@@ -14,3 +14,6 @@
     cursor: pointer;
 }
 
+.counter, .timer {
+    font-size: 40px;
+}

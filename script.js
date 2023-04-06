@@ -24,6 +24,7 @@ let cardImages = [
   "img/star_lord.jpg",
   "img/thanos.jpg",
   "img/vision.jpg",
+  "img/valkyrie.jpg",
   "img/war_machine.jpg",
   "img/wasp.jpg",
   "img/winter_soldier.jpg",
@@ -74,29 +75,65 @@ function createCards() {
   }
 }
 
+// !Créer une variable pour stocker le nombre de coups
+let numMoves = 0;
+
+// !Fonction pour incrémenter le nombre de coups et mettre à jour l'affichage
+function incrementMoves() {
+  numMoves++;
+  document.getElementById("num-moves").textContent = "Nombres de coups : " + numMoves;
+}
+
+// !Ajouter un timer de 5 minutes
+const GAME_TIME = 5 * 60; // Temps de jeu en secondes
+let timeLeft = GAME_TIME; // Temps restant en secondes
+
+// Fonction pour mettre à jour l'affichage du timer
+function updateTimeLeft() {
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  document.getElementById("time-left").textContent = "Temps restant : " + `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+// Décrémenter le temps restant toutes les secondes
+let timerInterval = setInterval(() => {
+  timeLeft--;
+  updateTimeLeft();
+
+  // Si le temps est écoulé, afficher GAME OVER
+  if (timeLeft === 0) {
+    clearInterval(timerInterval);
+    alert("GAME OVER, vous avez perdu!");
+  }
+
+  // Vérifier si toutes les paires ont été trouvées
+  if (matchedCards.length === cardImages.length) {
+    // !Arrêter le timer
+    clearInterval(timerInterval); 
+    // Afficher message de victoire
+    alert("Bravo, vous avez gagné!");
+  }
+}, 1000);
+
 // Fonction pour retourner une carte
 function flipCard() {
   // Si la carte est déjà retournée ou si deux cartes ont déjà été retournées, ne rien faire
   if (returnedCard.length === 2 || this.classList.contains("flipped")) {
     return;
   }
-
+  
   // Ajouter la carte au tableau des cartes retournées
+  incrementMoves(); // !Appel de la fonction pour incrementer le compteur de coup
   returnedCard.push(this);
   this.classList.add("flipped");
   this.style.backgroundImage = `url(${cardImages[this.dataset.cardIndex]})`;
 
   // Si deux cartes ont été retournées, vérifier si elles sont identiques
   if (returnedCard.length === 2) {
-    if (returnedCard[0].style.backgroundImage === returnedCard[1].style.backgroundImage) {
+        if (returnedCard[0].style.backgroundImage === returnedCard[1].style.backgroundImage) {
       // Si les cartes sont identiques, ajouter les deux cartes au tableau des paires trouvées
       matchedCards.push(returnedCard[0], returnedCard[1]);
       returnedCard = [];
-
-      // Vérifier si toutes les paires ont été trouvées
-      if (matchedCards.length === cardImages.length) {
-        alert("Bravo, vous avez gagné!");
-      }
     } else {
       // Si les cartes ne sont pas identiques, retourner les cartes après un court délai
       setTimeout(() => {
