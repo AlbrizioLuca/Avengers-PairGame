@@ -61,7 +61,7 @@ function createCards() {
   for (let i = 0; i < cardImages.length; i++) {
     let card = document.createElement("div");
     card.classList.add("card");
-    card.dataset.cardIndex = i;
+    card.dataset.card
 
     // Ajouter l'image de dos pour toutes les cartes
     card.style.backgroundImage = "url(img/back.jpg)";

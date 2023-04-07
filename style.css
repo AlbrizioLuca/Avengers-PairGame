@@ -52,12 +52,10 @@ main {
 }
 
 .counter, .timer {
-    /* margin-bottom: auto; */
     font-size: 40px;
 }
 
 audio {
-    /* margin-bottom: auto; */
     height: 80%;
 }
 video {
@@ -69,7 +67,6 @@ video {
 img {
     display: none;
     margin-right: auto;
-    /* float: left; */
     height: 70vh;
     width: 50vw;
 }
