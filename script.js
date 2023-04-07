@@ -84,8 +84,8 @@ function incrementMoves() {
 }
 
 // Ajouter un timer de 5 minutes
-// const GAME_TIME = 5* 60; // Temps de jeu en secondes
-const GAME_TIME = 5; // !Temps de jeu en secondes
+const GAME_TIME = 5* 60; // Temps de jeu en secondes
+// const GAME_TIME = 5; // !Temps de jeu en secondes
 let timeLeft = GAME_TIME; // Temps restant en secondes
 
 // Fonction pour mettre à jour l'affichage du timer
