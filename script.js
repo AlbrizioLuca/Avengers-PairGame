@@ -8,6 +8,7 @@ let cardImages = [
   "img/black_widow.jpg",
   "img/captain_america.jpg",
   "img/captain_marvel.jpg",
+  "img/deadpool.jpg",
   "img/doctor_strange.jpg",
   "img/drax.jpg",
   "img/falcon.jpg",
@@ -22,7 +23,7 @@ let cardImages = [
   "img/scarlett_witch.jpg",
   "img/spiderman.jpg",
   "img/star_lord.jpg",
-  "img/thanos.jpg",
+  // "img/thanos.jpg",
   "img/vision.jpg",
   "img/valkyrie.jpg",
   "img/war_machine.jpg",
@@ -84,13 +85,27 @@ function incrementMoves() {
   document.getElementById("num-moves").textContent = "Nombres de coups : " + numMoves;
 }
 
-// Ajouter un timer de 5 minutes
-const GAME_TIME = 5* 60; // Temps de jeu en secondes
-// const GAME_TIME = 5; // !Temps de jeu en secondes
-let timeLeft = GAME_TIME; // Temps restant en secondes
+// Appel de la fonction pour créer les cartes au chargement de la page
+function startGame() {
+  // Récupération des éléments HTML par leur ID 
+  rulesDisplay = document.getElementById("welcome");
+  // buttonStart = document.getElementById("startGame");
+  audio = document.getElementById("mainTheme");
+  // Changement du display des éléments afin de cacher/afficher
+      //et création des cartes de jeu
+      rulesDisplay.style.display="none";
+      createCards();
+  if (audio.readyState === 4){
+    audio.play()
+  }
+}
+
+// const GAME_TIME = 5* 60; // Temps de jeu en secondes
+const GAME_TIME = 5; // ! 5sec pour les TEST
+// let timeLeft = GAME_TIME; // Temps restant en secondes
 
 // Fonction pour mettre à jour l'affichage du timer
-function updateTimeLeft() {
+function updateTimer() {
   let minutes = Math.floor(timeLeft / 60);
   let seconds = timeLeft % 60;
   document.getElementById("time-left").textContent = "Temps restant : " + `${minutes}:${seconds.toString().padStart(2, "0")}`;
@@ -99,12 +114,12 @@ function updateTimeLeft() {
 // Décrémenter le temps restant toutes les secondes
 let timerInterval = setInterval(() => {
   timeLeft--;
-  updateTimeLeft();
+  updateTimer();
 
   // Si le temps est écoulé, afficher GAME OVER
   if (timeLeft === 0) {
     clearInterval(timerInterval);
-    // alert("GAME OVER, vous avez perdu!");
+    // Envoi de la fonction GAME OVER, vous avez perdu!");
     gameOver();
   }
 
@@ -112,8 +127,8 @@ let timerInterval = setInterval(() => {
   if (matchedCards.length === cardImages.length) {
     // Arrêter le timer
     clearInterval(timerInterval); 
-    // Afficher message de victoire
-    alert("Bravo, vous avez gagné!");
+    // le User a réussi lancer la fonction VICTORY
+    victory();
   }
 }, 1000);
 
@@ -123,7 +138,7 @@ function gameOver(){
   let video = document.getElementById("snapThanos");
   let gameboard = document.getElementById("game-board");
   let gameOver = document.getElementById("gameOver");
-  let tryAgain = document.getElementById("tryAgain");
+  let newGame = document.getElementById("newGame");
   // Changement du display des éléments afin de cacher/afficher
   gameboard.style.display="none";
   video.style.display="block";
@@ -136,7 +151,30 @@ function gameOver(){
     video.style.display="none";
     // afficher le message GAME OVER et la possibilité de relancer une partie 
     gameOver.style.display="block";
-    tryAgain.style.display="block";
+    newGame.style.display="block";
+  },10000)
+}
+
+// Fonction pour enlever toutes les cartes et afficher la vidéo victoire
+function victory(){
+  // Récupération des éléments HTML par leur ID 
+  let video = document.getElementById("thanosDeath");
+  let gameboard = document.getElementById("game-board");
+  let victory = document.getElementById("victory");
+  let newGame = document.getElementById("newGame");
+  // Changement du display des éléments afin de cacher/afficher
+  gameboard.style.display="none";
+  video.style.display="block";
+  // Si la vidéo est chargée alors lancer la lecture
+  if (video.readyState === 4){
+    video.play()
+  }
+  // Instancier un timeout le temps de la vidéo pour la faire disparaitre a nouveau
+  setTimeout(()=>{
+    video.style.display="none";
+    // afficher l'image victoire et la possibilité de relancer une partie 
+    victory.style.display="block";
+    newGame.style.display="block";
   },10000)
 }
 
@@ -171,6 +209,3 @@ function flipCard() {
     }
   }
 }
-
-// Appel de la fonction pour créer les cartes au chargement de la page
-window.addEventListener("load", createCards);

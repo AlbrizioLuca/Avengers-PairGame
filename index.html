@@ -6,24 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AVENGERS Game</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     </head>
     <body>
+        <span id="welcome">
+            <p>
+                Les AVENGERS ont besoin de toi ! <br>
+                Thanos est en train d'envahir la Terre ! <br><br>
+                S'il met la main sur les Pierres d'Infinites, il aneantira en un claquement de doigt la moitie de la Galaxie ! <br>
+                Rassemble le maximum des troupes restantes afin de lui resister<br>
+                Pour cela il faudra que tu cliques sur une carte et trouver son double parmi toutes les autres cartes ! <br>
+                Il faut rassembler toute l'equipe, sinon on aura pas la moindre chance... <br>
+                Des que tu seras pret, cliques sur le bouton, et un compte a rebours demarrera.. <br>
+                Tu as 5 minutes apres quoi il sera trop tard ! <br>
+                Bonne chance soldat ! <br>
+                <br>
+                P.S: Pour une meilleure experience, actives le son de ton ordinateur!
+            </p><br>
+            <button id="startGame" onclick="startGame();">Commencer la  Partie</button>  
+        </span>
         <header>
             <div id="time-left" class="timer"></div>
             <div id="num-moves" class="counter"></div>
-            <audio controls autoplay>
+            <audio id= "mainTheme" controls >
                 <source src="src/Music_Avengers.mp3" type="audio/mp3">
                 Your browser does not support the audio element.
             </audio>
         </header>
         <main id="game-board">
         </main>
+        <!-- En cas de défaite -->
         <video id="snapThanos">
             <source src="src/SnapThanos.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <img src="src/GameOver.webp" id="gameOver"> 
-        <button id="tryAgain" onClick="window.location.reload();">Try Again</button>     
+        <!-- En cas de victoire -->
+        <video id="thanosDeath">
+            <source src="src/ThanosDeath.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <img src="src/winner.png" id="victory"> 
+        <!-- Button pour refresh la page -->
+        <button id="newGame" onclick="window.location.reload();">Nouvelle Partie</button>     
     <body>
+<script src="script.js"></script>
 </html>
