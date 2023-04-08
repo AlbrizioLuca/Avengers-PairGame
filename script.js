@@ -68,11 +68,11 @@ function createCards() {
     // Ajouter l'image de dos pour toutes les cartes
     card.style.backgroundImage = "url(img/back.jpg)";
 
-    // Ajouter l'écouteur d'événement pour retourner la carte
-    card.addEventListener("click", flipCard);
-
     document.getElementById("game-board").appendChild(card);
     cards.push(card);
+
+    // Ajouter l'écouteur d'événement pour retourner la carte
+    card.addEventListener("click", flipCard);
   }
 }
 
@@ -88,21 +88,23 @@ function incrementMoves() {
 // Appel de la fonction pour créer les cartes au chargement de la page
 function startGame() {
   // Récupération des éléments HTML par leur ID 
-  rulesDisplay = document.getElementById("welcome");
-  // buttonStart = document.getElementById("startGame");
-  audio = document.getElementById("mainTheme");
-  // Changement du display des éléments afin de cacher/afficher
-      //et création des cartes de jeu
-      rulesDisplay.style.display="none";
-      createCards();
+  let rulesDisplay = document.getElementById("welcome");
+  let audio = document.getElementById("mainTheme");
+
+  // Cacher les regles et création des cartes de jeu et lancement du timer
+  rulesDisplay.style.display="none";
+  createCards();
+  launchTimer();
+
+  // Lancer l'audio pour la durée du jeu  
   if (audio.readyState === 4){
     audio.play()
   }
 }
 
 // const GAME_TIME = 5* 60; // Temps de jeu en secondes
-const GAME_TIME = 5; // ! 5sec pour les TEST
-// let timeLeft = GAME_TIME; // Temps restant en secondes
+const GAME_TIME = 6; // ! 5sec pour les TEST
+let timeLeft = GAME_TIME; // Temps restant en secondes
 
 // Fonction pour mettre à jour l'affichage du timer
 function updateTimer() {
@@ -112,25 +114,27 @@ function updateTimer() {
 }
 
 // Décrémenter le temps restant toutes les secondes
-let timerInterval = setInterval(() => {
-  timeLeft--;
-  updateTimer();
-
-  // Si le temps est écoulé, afficher GAME OVER
-  if (timeLeft === 0) {
-    clearInterval(timerInterval);
-    // Envoi de la fonction GAME OVER, vous avez perdu!");
-    gameOver();
-  }
-
-  // Vérifier si toutes les paires ont été trouvées
-  if (matchedCards.length === cardImages.length) {
-    // Arrêter le timer
-    clearInterval(timerInterval); 
-    // le User a réussi lancer la fonction VICTORY
-    victory();
-  }
-}, 1000);
+function launchTimer() {
+  let timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+  
+    // Si le temps est écoulé, afficher GAME OVER
+    if (timeLeft === 0) {
+      clearInterval(timerInterval);
+      // Envoi de la fonction GAME OVER, vous avez perdu!");
+      gameOver();
+    }
+  
+    // Vérifier si toutes les paires ont été trouvées
+    if (matchedCards.length === cardImages.length) {
+      // Arrêter le timer
+      clearInterval(timerInterval); 
+      // le User a réussi lancer la fonction VICTORY
+      victory();
+    }
+  }, 1000);
+};
 
 // Fonction pour enlever toutes les cartes et afficher la vidéo GAME OVER
 function gameOver(){
