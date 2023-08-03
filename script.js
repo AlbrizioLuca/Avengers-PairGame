@@ -102,7 +102,7 @@ function startGame() {
   }
 }
 
-const GAME_TIME = 5* 60; // Temps de jeu en secondes
+const GAME_TIME = 3* 60; // Temps de jeu en secondes
 // const GAME_TIME = 6; // ! 5sec pour les TEST
 let timeLeft = GAME_TIME; // Temps restant en secondes
 
