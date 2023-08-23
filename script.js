@@ -8,7 +8,6 @@ let cardImages = [
   "img/black_widow.jpg",
   "img/captain_america.jpg",
   "img/captain_marvel.jpg",
-  "img/deadpool.jpg",
   "img/doctor_strange.jpg",
   "img/drax.jpg",
   "img/falcon.jpg",
@@ -23,7 +22,6 @@ let cardImages = [
   "img/scarlett_witch.jpg",
   "img/spiderman.jpg",
   "img/star_lord.jpg",
-  // "img/thanos.jpg",
   "img/vision.jpg",
   "img/valkyrie.jpg",
   "img/war_machine.jpg",
@@ -31,13 +29,13 @@ let cardImages = [
   "img/winter_soldier.jpg",
 ];
 
-// Tableau pour stocker les cartes retournées
+// Stocker les cartes retournées
 let returnedCard = [];
 
-// Tableau pour stocker les paires de cartes trouvées
+// Stocker les paires de cartes trouvées
 let matchedCards = [];
 
-// Fonction pour mélanger le tableau de cartes
+// Mélanger le tableau de cartes
 function shuffle(array) {
   let currentIndex = array.length;
   let temporaryValue, randomIndex;
@@ -67,7 +65,7 @@ function createCards() {
 
     // Ajouter l'image de dos pour toutes les cartes
     card.style.backgroundImage = "url(img/back.jpg)";
-
+    // Ajouter la carte créer au game board
     document.getElementById("game-board").appendChild(card);
     cards.push(card);
 
@@ -79,7 +77,7 @@ function createCards() {
 // Créer une variable pour stocker le nombre de coups
 let numMoves = 0;
 
-// Fonction pour incrémenter le nombre de coups et mettre à jour l'affichage
+// Incrémenter le nombre de coups et mettre à jour l'affichage
 function incrementMoves() {
   numMoves++;
   document.getElementById("num-moves").textContent = "Nombres de coups : " + numMoves;
@@ -102,11 +100,11 @@ function startGame() {
   }
 }
 
-const GAME_TIME = 3* 60; // Temps de jeu en secondes
+const GAME_TIME = 3* 60; // Temps de jeu 3minutes
 // const GAME_TIME = 6; // ! 5sec pour les TEST
 let timeLeft = GAME_TIME; // Temps restant en secondes
 
-// Fonction pour mettre à jour l'affichage du timer
+// Mettre à jour l'affichage du timer
 function updateTimer() {
   let minutes = Math.floor(timeLeft / 60);
   let seconds = timeLeft % 60;
@@ -122,7 +120,7 @@ function launchTimer() {
     // Si le temps est écoulé, afficher GAME OVER
     if (timeLeft === 0) {
       clearInterval(timerInterval);
-      // Envoi de la fonction GAME OVER, vous avez perdu!");
+      // Envoi de la fonction GAME OVER
       gameOver();
     }
   
@@ -136,7 +134,7 @@ function launchTimer() {
   }, 1000);
 };
 
-// Fonction pour enlever toutes les cartes et afficher la vidéo GAME OVER
+// Enlever toutes les cartes et afficher la vidéo GAME OVER
 function gameOver(){
   // Récupération des éléments HTML par leur ID 
   let video = document.getElementById("snapThanos");
@@ -150,8 +148,9 @@ function gameOver(){
   if (video.readyState === 4){
     video.play()
   }
-  // Instancier un timeout le temps de la vidéo pour la faire disparaitre a nouveau
+  // Instancier un timeout le temps de la vidéo 
   setTimeout(()=>{
+    // pour la faire disparaitre a nouveau
     video.style.display="none";
     // afficher le message GAME OVER et la possibilité de relancer une partie 
     gameOver.style.display="block";
@@ -173,8 +172,9 @@ function victory(){
   if (video.readyState === 4){
     video.play()
   }
-  // Instancier un timeout le temps de la vidéo pour la faire disparaitre a nouveau
+  // Instancier un timeout le temps de la vidéo
   setTimeout(()=>{
+    // pour la faire disparaitre a nouveau
     video.style.display="none";
     // afficher l'image victoire et la possibilité de relancer une partie 
     victory.style.display="block";
@@ -182,7 +182,7 @@ function victory(){
   },10000)
 }
 
-// Fonction pour retourner une carte
+// Retourner une carte
 function flipCard() {
   // Si la carte est déjà retournée ou si deux cartes ont déjà été retournées, ne rien faire
   if (returnedCard.length === 2 || this.classList.contains("flipped")) {
