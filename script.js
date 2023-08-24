@@ -1,3 +1,5 @@
+// ! -------------------------------- GESTION DES CARTES ---------------------------------------------------- 
+
 // Création d'un tableau pour stocker les cartes
 let cards = [];
 
@@ -83,25 +85,42 @@ function incrementMoves() {
   document.getElementById("num-moves").textContent = "Nombres de coups : " + numMoves;
 }
 
-// Appel de la fonction pour créer les cartes au chargement de la page
-function startGame() {
-  // Récupération des éléments HTML par leur ID 
-  let rulesDisplay = document.getElementById("welcome");
-  let audio = document.getElementById("mainTheme");
+// Retourner une carte
+function flipCard() {
+  // Si la carte est déjà retournée ou si deux cartes ont déjà été retournées, ne rien faire
+  if (returnedCard.length === 2 || this.classList.contains("flipped")) {
+    return;
+  }
+  
+  // Ajouter la carte au tableau des cartes retournées
+  incrementMoves(); // Appel de la fonction pour incrementer le compteur de coup
+  returnedCard.push(this);
+  this.classList.add("flipped");
+  this.style.backgroundImage = `url(${cardImages[this.dataset.cardIndex]})`;
 
-  // Cacher les regles et création des cartes de jeu et lancement du timer
-  rulesDisplay.style.display="none";
-  createCards();
-  launchTimer();
-
-  // Lancer l'audio pour la durée du jeu  
-  if (audio.readyState === 4){
-    audio.play()
+  // Si deux cartes ont été retournées, vérifier si elles sont identiques
+  if (returnedCard.length === 2) {
+        if (returnedCard[0].style.backgroundImage === returnedCard[1].style.backgroundImage) {
+      // Si les cartes sont identiques, ajouter les deux cartes au tableau des paires trouvées
+      matchedCards.push(returnedCard[0], returnedCard[1]);
+      returnedCard = [];
+    } else {
+      // Si les cartes ne sont pas identiques, retourner les cartes après un court délai
+      setTimeout(() => {
+        returnedCard[0].classList.remove("flipped");
+        returnedCard[0].style.backgroundImage = `url(img/back.jpg)`;
+        returnedCard[1].classList.remove("flipped");
+        returnedCard[1].style.backgroundImage = `url(img/back.jpg)`;
+        returnedCard = [];
+      }, 1000);
+    }
   }
 }
 
-const GAME_TIME = 3* 60; // Temps de jeu 3minutes
-// const GAME_TIME = 6; // ! 5sec pour les TEST
+// ! -------------------------------- TIMER ---------------------------------------------------- 
+
+// const GAME_TIME = 3* 60; // Temps de jeu 3minutes
+const GAME_TIME = 6; // ! 5sec pour les TEST
 let timeLeft = GAME_TIME; // Temps restant en secondes
 
 // Mettre à jour l'affichage du timer
@@ -133,6 +152,27 @@ function launchTimer() {
     }
   }, 1000);
 };
+
+// ! -------------------------------- DEMARRAGE DU JEU ---------------------------------------------------- 
+
+// Appel de la fonction pour créer les cartes au chargement de la page
+function startGame() {
+  // Récupération des éléments HTML par leur ID 
+  let rulesDisplay = document.getElementById("welcome");
+  let audio = document.getElementById("mainTheme");
+
+  // Cacher les regles et création des cartes de jeu et lancement du timer
+  rulesDisplay.style.display="none";
+  createCards();
+  launchTimer();
+
+  // Lancer l'audio pour la durée du jeu  
+  if (audio.readyState === 4){
+    audio.play()
+  }
+}
+
+// ! -------------------------------- VICTOIRE OU DEFAITE ---------------------------------------------------- 
 
 // Enlever toutes les cartes et afficher la vidéo GAME OVER
 function gameOver(){
@@ -180,36 +220,4 @@ function victory(){
     victory.style.display="block";
     newGame.style.display="block";
   },10000)
-}
-
-// Retourner une carte
-function flipCard() {
-  // Si la carte est déjà retournée ou si deux cartes ont déjà été retournées, ne rien faire
-  if (returnedCard.length === 2 || this.classList.contains("flipped")) {
-    return;
-  }
-  
-  // Ajouter la carte au tableau des cartes retournées
-  incrementMoves(); // Appel de la fonction pour incrementer le compteur de coup
-  returnedCard.push(this);
-  this.classList.add("flipped");
-  this.style.backgroundImage = `url(${cardImages[this.dataset.cardIndex]})`;
-
-  // Si deux cartes ont été retournées, vérifier si elles sont identiques
-  if (returnedCard.length === 2) {
-        if (returnedCard[0].style.backgroundImage === returnedCard[1].style.backgroundImage) {
-      // Si les cartes sont identiques, ajouter les deux cartes au tableau des paires trouvées
-      matchedCards.push(returnedCard[0], returnedCard[1]);
-      returnedCard = [];
-    } else {
-      // Si les cartes ne sont pas identiques, retourner les cartes après un court délai
-      setTimeout(() => {
-        returnedCard[0].classList.remove("flipped");
-        returnedCard[0].style.backgroundImage = `url(img/back.jpg)`;
-        returnedCard[1].classList.remove("flipped");
-        returnedCard[1].style.backgroundImage = `url(img/back.jpg)`;
-        returnedCard = [];
-      }, 1000);
-    }
-  }
 }
